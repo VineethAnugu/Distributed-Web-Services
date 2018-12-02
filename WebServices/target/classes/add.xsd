@@ -1,0 +1,22 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.teja.vin.com/addservice"
+targetNamespace="http://teja.vin.com/addservice" elementFormDefault="qualified">
+ 
+    <xs:element name="AddRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="num1" type="xs:float"/>
+                <xs:element name="num2" type="xs:float"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="AddResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="res_num" type="xs:float"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+     
+</xs:schema>

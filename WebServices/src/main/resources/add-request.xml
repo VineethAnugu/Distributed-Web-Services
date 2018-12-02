@@ -1,0 +1,10 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:us="http://teja.vin.com/addservice">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <us:AddRequest>
+            <us:num1>2</us:num1>
+            <us:num2>4</us:num2>
+        </us:AddRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
