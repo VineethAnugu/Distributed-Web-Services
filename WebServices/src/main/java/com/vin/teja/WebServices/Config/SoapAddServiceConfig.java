@@ -22,7 +22,7 @@ public class SoapAddServiceConfig extends WsConfigurerAdapter {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(context);
         servlet.setTransformWsdlLocations(true);
-        return new ServletRegistrationBean(servlet, "/soapAddService/*");
+        return new ServletRegistrationBean(servlet, "/AddService/*");
     }
 
 
@@ -38,7 +38,7 @@ public class SoapAddServiceConfig extends WsConfigurerAdapter {
         definition.setSchema(userSchema);
         definition.setLocationUri("/AddService");
         definition.setPortTypeName("AddServicePort");
-        definition.setTargetNamespace("http://teja.vin.com/AddService");
+        definition.setTargetNamespace("http://teja.vin.com/addservice");
         return definition;
     }
 
