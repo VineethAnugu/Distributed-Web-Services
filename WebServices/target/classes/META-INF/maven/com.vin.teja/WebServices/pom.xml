@@ -36,10 +36,10 @@
 	        <scope>provided</scope>
 	    </dependency>
     
-	<dependency>
-    	<groupId>wsdl4j</groupId>
-    	<artifactId>wsdl4j</artifactId>
-	</dependency>
+		<dependency>
+	    	<groupId>wsdl4j</groupId>
+	    	<artifactId>wsdl4j</artifactId>
+		</dependency>
 	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

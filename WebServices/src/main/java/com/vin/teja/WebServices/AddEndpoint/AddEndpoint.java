@@ -17,15 +17,13 @@ public class AddEndpoint {
 
 
     @PayloadRoot(namespace = "http://teja.vin.com/addservice",
-            localPart = "addRequest")
+            localPart = "AddRequest")
     @ResponsePayload
     public AddResponse Request(@RequestPayload AddRequest request) {
         AddResponse response = new AddResponse();
         float a = request.getNum1();
         float b = request.getNum2();
-        response.setResNum(a+b);
-        
-    
+        response.setResNum(a+b);    
         return response;
     } 
 }
