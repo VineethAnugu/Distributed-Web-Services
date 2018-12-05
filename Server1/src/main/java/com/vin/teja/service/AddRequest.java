@@ -10,7 +10,6 @@ package com.vin.teja.service;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -25,8 +24,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="res_num" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="comment" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="num1" type="{http://www.w3.org/2001/XMLSchema}float"/>
+ *         &lt;element name="num2" type="{http://www.w3.org/2001/XMLSchema}float"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,55 +36,45 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "resNum",
-    "comment"
+    "num1",
+    "num2"
 })
-@XmlRootElement(name = "Response")
-public class Response {
+@XmlRootElement(name = "AddRequest")
+public class AddRequest {
 
-    @XmlElement(name = "res_num")
-    protected float resNum;
-    @XmlElement(required = true)
-    protected String comment;
+    protected float num1;
+    protected float num2;
 
     /**
-     * Gets the value of the resNum property.
+     * Gets the value of the num1 property.
      * 
      */
-    public float getResNum() {
-        return resNum;
+    public float getNum1() {
+        return num1;
     }
 
     /**
-     * Sets the value of the resNum property.
+     * Sets the value of the num1 property.
      * 
      */
-    public void setResNum(float value) {
-        this.resNum = value;
+    public void setNum1(float value) {
+        this.num1 = value;
     }
 
     /**
-     * Gets the value of the comment property.
+     * Gets the value of the num2 property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getComment() {
-        return comment;
+    public float getNum2() {
+        return num2;
     }
 
     /**
-     * Sets the value of the comment property.
+     * Sets the value of the num2 property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setComment(String value) {
-        this.comment = value;
+    public void setNum2(float value) {
+        this.num2 = value;
     }
 
 }

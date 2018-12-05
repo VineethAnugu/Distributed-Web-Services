@@ -2,10 +2,10 @@
                   xmlns:us="http://teja.vin.com/service">
     <soapenv:Header/>
     <soapenv:Body>
-        <us:Request>
+        <us:MinusRequest>
             <us:num1>8</us:num1>
             <us:num2>4</us:num2>
             <us:function>-</us:function>
-        </us:Request>
+        </us:MinusRequest>
     </soapenv:Body>
 </soapenv:Envelope>
