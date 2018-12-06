@@ -27,6 +27,39 @@ targetNamespace="http://teja.vin.com/service" elementFormDefault="qualified">
             </xs:sequence>
         </xs:complexType>
     </xs:element>
- 
-     
+    
+    <xs:element name="WhichRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="serviceName" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="WhichResponse">
+        <xs:complexType>
+            <xs:sequence>
+			<xs:element name="IPAddress" type="xs:string"/>
+			<xs:element name="port" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="AliveRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="IPAddress" type="xs:string"/>
+                <xs:element name="port" type="xs:int"/>
+                <xs:element name="serviceNames" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="AliveResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Status" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>     
 </xs:schema>

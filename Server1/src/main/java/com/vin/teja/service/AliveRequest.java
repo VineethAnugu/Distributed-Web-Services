@@ -25,8 +25,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="res_num" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="comment" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="IPAddress" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="port" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="serviceNames" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,55 +38,81 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "resNum",
-    "comment"
+    "ipAddress",
+    "port",
+    "serviceNames"
 })
-@XmlRootElement(name = "Response")
-public class Response {
+@XmlRootElement(name = "AliveRequest")
+public class AliveRequest {
 
-    @XmlElement(name = "res_num")
-    protected float resNum;
+    @XmlElement(name = "IPAddress", required = true)
+    protected String ipAddress;
+    protected int port;
     @XmlElement(required = true)
-    protected String comment;
+    protected String serviceNames;
 
     /**
-     * Gets the value of the resNum property.
-     * 
-     */
-    public float getResNum() {
-        return resNum;
-    }
-
-    /**
-     * Sets the value of the resNum property.
-     * 
-     */
-    public void setResNum(float value) {
-        this.resNum = value;
-    }
-
-    /**
-     * Gets the value of the comment property.
+     * Gets the value of the ipAddress property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getComment() {
-        return comment;
+    public String getIPAddress() {
+        return ipAddress;
     }
 
     /**
-     * Sets the value of the comment property.
+     * Sets the value of the ipAddress property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setComment(String value) {
-        this.comment = value;
+    public void setIPAddress(String value) {
+        this.ipAddress = value;
+    }
+
+    /**
+     * Gets the value of the port property.
+     * 
+     */
+    public int getPort() {
+        return port;
+    }
+
+    /**
+     * Sets the value of the port property.
+     * 
+     */
+    public void setPort(int value) {
+        this.port = value;
+    }
+
+    /**
+     * Gets the value of the serviceNames property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getServiceNames() {
+        return serviceNames;
+    }
+
+    /**
+     * Sets the value of the serviceNames property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setServiceNames(String value) {
+        this.serviceNames = value;
     }
 
 }

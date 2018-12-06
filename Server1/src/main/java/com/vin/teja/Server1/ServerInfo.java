@@ -1,0 +1,30 @@
+package com.vin.teja.Server1;
+
+public class ServerInfo {
+
+	public String ipAddress;
+	private int port;
+	private String[] serviceNames;
+	
+	public String getIpAddress() {
+		return ipAddress;
+	}
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+	public int getPort() {
+		return port;
+	}
+	public void setPort(int port) {
+		this.port = port;
+	}
+	public String[] getServiceNames() {
+		return serviceNames;
+	}
+	public void setServiceNames(String[] serviceNames) {
+		this.serviceNames = serviceNames;
+	}
+	
+	
+
+}

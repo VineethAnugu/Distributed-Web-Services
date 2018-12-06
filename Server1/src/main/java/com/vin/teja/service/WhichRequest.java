@@ -25,8 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="res_num" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="comment" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="serviceName" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,55 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "resNum",
-    "comment"
+    "serviceName"
 })
-@XmlRootElement(name = "Response")
-public class Response {
+@XmlRootElement(name = "WhichRequest")
+public class WhichRequest {
 
-    @XmlElement(name = "res_num")
-    protected float resNum;
     @XmlElement(required = true)
-    protected String comment;
+    protected String serviceName;
 
     /**
-     * Gets the value of the resNum property.
-     * 
-     */
-    public float getResNum() {
-        return resNum;
-    }
-
-    /**
-     * Sets the value of the resNum property.
-     * 
-     */
-    public void setResNum(float value) {
-        this.resNum = value;
-    }
-
-    /**
-     * Gets the value of the comment property.
+     * Gets the value of the serviceName property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getComment() {
-        return comment;
+    public String getServiceName() {
+        return serviceName;
     }
 
     /**
-     * Sets the value of the comment property.
+     * Sets the value of the serviceName property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setComment(String value) {
-        this.comment = value;
+    public void setServiceName(String value) {
+        this.serviceName = value;
     }
 
 }
