@@ -11,6 +11,8 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import com.vin.teja.service.AddRequest;
 import com.vin.teja.service.AliveRequest;
 import com.vin.teja.service.AliveResponse;
+import com.vin.teja.service.DeadResponse;
+import com.vin.teja.service.DeadRequest;
 import com.vin.teja.service.MinusRequest;
 import com.vin.teja.service.Response;
 import com.vin.teja.service.WhichRequest;
@@ -106,9 +108,24 @@ public class Endpoint1 {
 		int b = aliverequest.getPort();
 		String c = aliverequest.getServiceNames();
 		
-		
+		//Code to add ServerInfo of the server with above retrieved IP/Port/ServiceNames into the hash map
 		
 		return aliveresponse;
 	}
-}
+	
+	@PayloadRoot(namespace = "http://teja.vin.com/service",    		
+			localPart = "DeadRequest")
+	@ResponsePayload
+	public DeadResponse DeadRequest(@RequestPayload DeadRequest deadrequest) {
+		DeadResponse deadresponse = new DeadResponse();
+		String a = deadrequest.getIPAddress();
+		int b = deadrequest.getPort();
+		
+		//Code for deleting the ServerInfo of the server with the above retrieved IP and post from the hash map
+		
+		deadresponse.setComment("Deleted");
+		return deadresponse;
+		
+	}
 
+}

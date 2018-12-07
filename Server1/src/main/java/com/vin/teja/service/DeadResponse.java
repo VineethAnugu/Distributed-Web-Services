@@ -25,8 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="IPAddress" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="port" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="Comment" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,54 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "ipAddress",
-    "port"
+    "comment"
 })
-@XmlRootElement(name = "WhichResponse")
-public class WhichResponse {
+@XmlRootElement(name = "DeadResponse")
+public class DeadResponse {
 
-    @XmlElement(name = "IPAddress", required = true)
-    protected String ipAddress;
-    protected int port;
+    @XmlElement(name = "Comment", required = true)
+    protected String comment;
 
     /**
-     * Gets the value of the ipAddress property.
+     * Gets the value of the comment property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getIPAddress() {
-        return ipAddress;
+    public String getComment() {
+        return comment;
     }
 
     /**
-     * Sets the value of the ipAddress property.
+     * Sets the value of the comment property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setIPAddress(String value) {
-        this.ipAddress = value;
-    }
-
-    /**
-     * Gets the value of the port property.
-     * 
-     */
-    public int getPort() {
-        return port;
-    }
-
-    /**
-     * Sets the value of the port property.
-     * 
-     */
-    public void setPort(int value) {
-        this.port = value;
+    public void setComment(String value) {
+        this.comment = value;
     }
 
 }

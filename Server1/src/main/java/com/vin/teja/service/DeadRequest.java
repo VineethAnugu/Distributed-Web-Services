@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="IPAddress" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="port" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="serviceNames" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -39,17 +38,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "ipAddress",
-    "port",
-    "serviceNames"
+    "port"
 })
-@XmlRootElement(name = "AliveRequest")
-public class AliveRequest {
+@XmlRootElement(name = "DeadRequest")
+public class DeadRequest {
 
     @XmlElement(name = "IPAddress", required = true)
     protected String ipAddress;
     protected int port;
-    @XmlElement(required = true)
-    protected String serviceNames;
 
     /**
      * Gets the value of the ipAddress property.
@@ -89,30 +85,6 @@ public class AliveRequest {
      */
     public void setPort(int value) {
         this.port = value;
-    }
-
-    /**
-     * Gets the value of the serviceNames property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getServiceNames() {
-        return serviceNames;
-    }
-
-    /**
-     * Sets the value of the serviceNames property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setServiceNames(String value) {
-        this.serviceNames = value;
     }
 
 }
