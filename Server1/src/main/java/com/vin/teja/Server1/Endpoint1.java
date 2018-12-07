@@ -1,18 +1,19 @@
 package com.vin.teja.Server1;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Arrays;
 
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+
 import com.vin.teja.service.AddRequest;
 import com.vin.teja.service.AliveRequest;
 import com.vin.teja.service.AliveResponse;
-import com.vin.teja.service.DeadResponse;
 import com.vin.teja.service.DeadRequest;
+import com.vin.teja.service.DeadResponse;
 import com.vin.teja.service.MinusRequest;
 import com.vin.teja.service.Response;
 import com.vin.teja.service.WhichRequest;
@@ -21,9 +22,9 @@ import com.vin.teja.service.WhichResponse;
 @Endpoint
 public class Endpoint1 {
 
-    private Map<Integer, ServerInfo> services = new HashMap<Integer, ServerInfo>();
+    private Map<String, ServerInfo> services = new HashMap<>();
     
-    public ServerInfo putInfo(String x, int y, String[] z) {
+    private ServerInfo putInfo(String x, int y, String[] z) {
     	ServerInfo si = new ServerInfo();
     	si.setIpAddress(x);
     	si.setPort(y);
@@ -32,7 +33,7 @@ public class Endpoint1 {
     }
     
     public Endpoint1() {
-	    String[] service_list1 = new String[2];
+/*	    String[] service_list1 = new String[2];
 	    service_list1[0]= "AddService";
 	    service_list1[1]= "MinusService";
 	    String[] service_list2 = new String[2];
@@ -44,10 +45,11 @@ public class Endpoint1 {
 	    String[] service_list4 = new String[2];
 	    service_list4[0]= "MinusService";
 	    service_list4[1]= "DivService";
-	    services.put(1, putInfo("localhost:", 8082, service_list1));
-	    services.put(2, putInfo("localhost:", 8083, service_list2));
-	    services.put(3, putInfo("localhost:", 8084, service_list3));
-	    services.put(4, putInfo("localhost:", 8085, service_list4));
+	    ServerInfo s1 = putInfo("localhost", 8082, service_list1);
+	    services.put(s1.getKey(), s1);
+	    services.put(2, putInfo("localhost", 8083, service_list2));
+	    services.put(3, putInfo("localhost", 8084, service_list3));
+	    services.put(4, putInfo("localhost", 8085, service_list4));*/
     }
 
     	
@@ -86,7 +88,7 @@ public class Endpoint1 {
 		
 		int temp = -1;
 		
-		for(int i = 1; i <= 4; i++) {
+		for(int i = 1; i <= services.size(); i++) {
 			if(Arrays.asList(services.get(i).getServiceNames()).contains(r)) {
 				temp = i;
 				break;
@@ -106,10 +108,14 @@ public class Endpoint1 {
 		AliveResponse aliveresponse = new AliveResponse();
 		String a = aliverequest.getIPAddress();
 		int b = aliverequest.getPort();
-		String c = aliverequest.getServiceNames();
+		String[] c = new String[10];
 		
-		//Code to add ServerInfo of the server with above retrieved IP/Port/ServiceNames into the hash map
+		ServerInfo s = new ServerInfo();
+		s.setIpAddress(a);
+		s.setPort(b);
+		//TODO set service names
 		
+		this.services.put(s.getKey(), s);
 		return aliveresponse;
 	}
 	
@@ -120,12 +126,14 @@ public class Endpoint1 {
 		DeadResponse deadresponse = new DeadResponse();
 		String a = deadrequest.getIPAddress();
 		int b = deadrequest.getPort();
+		String key = a+":"+b;
 		
-		//Code for deleting the ServerInfo of the server with the above retrieved IP and post from the hash map
+		if( this.services.containsKey(key) )
+			this.services.remove(key);
+		else
+			deadresponse.setComment("Server information of the retrieved IP address and port is not present in the registry.");
 		
-		deadresponse.setComment("Deleted");
 		return deadresponse;
-		
 	}
 
 }

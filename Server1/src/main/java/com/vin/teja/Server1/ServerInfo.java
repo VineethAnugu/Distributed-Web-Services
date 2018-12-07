@@ -25,6 +25,8 @@ public class ServerInfo {
 		this.serviceNames = serviceNames;
 	}
 	
-	
+	public String getKey() {
+		return this.ipAddress +":"+ this.port;
+	}
 
 }
