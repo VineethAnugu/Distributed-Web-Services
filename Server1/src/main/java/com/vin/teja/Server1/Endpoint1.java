@@ -39,12 +39,7 @@ public class Endpoint1 {
 	    service_list1[1]= "MinusService";
 	    ServerInfo s1 = putInfo("localhost", 8082, service_list1);
 	    services.put(s1.getKey(), s1);
-	    /*ServerInfo s2 = putInfo("localhost", 8083);
-	    services.put(s2.getKey(), s2);
-	    ServerInfo s3 = putInfo("localhost", 8084);
-	    services.put(s3.getKey(), s3);
-	    ServerInfo s4 = putInfo("localhost", 8085);
-	    services.put(s4.getKey(), s4);*/ 
+
     }
 
     	// AddRequest 
@@ -130,8 +125,10 @@ public class Endpoint1 {
 		String a = deadrequest.getIPAddress();
 		int b = deadrequest.getPort();
 		String key = a+":"+b;
-		if( this.services.containsKey(key) )
+		if( this.services.containsKey(key) ) {
 			this.services.remove(key);
+			deadresponse.setComment("Successfully Removed");
+		}
 		else
 			deadresponse.setComment("Server information of the retrieved IP address and port is not present in the registry.");
 		return deadresponse;
