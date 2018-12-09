@@ -25,7 +25,7 @@ public class Endpoint3 {
 	}
 
 	@PayloadRoot(namespace = "http://teja.vin.com/service",    		
-			localPart = "MinusRequest")
+			localPart = "MulRequest")
 	@ResponsePayload
 	public Response MulRequest(@RequestPayload MulRequest mulrequest) {
 		Response response = new Response();

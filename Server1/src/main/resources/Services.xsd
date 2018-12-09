@@ -41,7 +41,6 @@ targetNamespace="http://teja.vin.com/service" elementFormDefault="qualified">
             <xs:sequence>
 			<xs:element name="IPAddress" type="xs:string"/>
 			<xs:element name="port" type="xs:int"/>
-			<xs:element name="Comment" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

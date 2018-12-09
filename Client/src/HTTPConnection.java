@@ -1,19 +1,36 @@
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Scanner;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.MimeHeaders;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPMessage;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class HTTPConnection implements Runnable {
 
 	private String url, postData, response;
+	private long waitTime;
+	private static Scanner scanner;
 	
 	public HTTPConnection(String url, String postData) {
+		this(url, postData, 0L);
+	}
+	
+	public HTTPConnection(String url, String postData, long waitTime) {
 		this.response = null;
+		this.waitTime = waitTime;
 		this.url = url!=null?url.trim():"";
-		this.postData = this.postData!=null?this.postData.trim():"";
+		this.postData = postData!=null?postData:"";
 	}
 	
 	public String getResponse() {
@@ -24,10 +41,13 @@ public class HTTPConnection implements Runnable {
 	@Override
 	public void run() {
 		try {
+			Thread.sleep(this.waitTime);
 			this.response = this.sendPost(this.url, this.postData);
+			System.out.println(response);
 		}catch (MalformedURLException e) {
 			e.printStackTrace();
-		}catch(SecurityException e) {}
+		}catch(InterruptedException e) {}
+		
 	}
 
 	
@@ -38,24 +58,31 @@ public class HTTPConnection implements Runnable {
 		
 		try {
 			con = (HttpURLConnection) obj.openConnection();
-
-			con.setDoOutput(true);
+			
+			con.setReadTimeout(30000);
+			con.setConnectTimeout(5000);
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Accept", "*/*");
 			con.setRequestProperty("Content-Type", "text/xml");
+			con.setRequestProperty("User-Agent", "curl/7.29.0");
+			con.setRequestProperty("Content-Length", "curl/7.29.0");
 			
-			try(DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-					BufferedReader in = new BufferedReader(
-							new InputStreamReader(con.getInputStream()))) {
-				
+			try {
+			
+				con.setDoOutput(true);
+				DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 				wr.writeBytes(postData);
 				wr.flush();
+				
 				int responseCode = con.getResponseCode();
 				
 				System.out.println("\nSending 'POST' request to URL : " + url);
 				System.out.println("Response Code : " + responseCode);		
 				
 				if ( responseCode == HttpURLConnection.HTTP_OK ) {
+				
+					BufferedReader in = new BufferedReader(
+							new InputStreamReader(con.getInputStream()));
 					
 					StringBuilder response = new StringBuilder("");
 					String inputLine = null;
@@ -64,8 +91,11 @@ public class HTTPConnection implements Runnable {
 						response.append(inputLine);
 					}
 					
-					return response.toString().trim();
+					wr.close();
+					in.close();
 					
+
+					return response.toString().trim();
 				}
 				
 			}catch (Exception e) {
@@ -79,24 +109,118 @@ public class HTTPConnection implements Runnable {
 		return "Request Failed";
 
 	}
+
 	
 	public static void main(String[] args) throws Exception {
+		
+		System.out.println("Enter service from the following available services : ");
+		System.out.println("1. Add, 2. Minus, 3. Mul, 4. Div");
+		scanner = new Scanner(System.in);
+		String service = scanner.nextLine();
 
 		String data = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n" + 
 				"                  xmlns:us=\"http://teja.vin.com/service\">\r\n" + 
 				"    <soapenv:Header/>\r\n" + 
 				"    <soapenv:Body>\r\n" + 
 				"        <us:WhichRequest>\r\n" + 
-				"            <us:serviceName>MulService</us:serviceName>\r\n" + 
+				"            <us:serviceName>"+service+"Service</us:serviceName>\r\n" + 
 				"        </us:WhichRequest>\r\n" + 
 				"    </soapenv:Body>\r\n" + 
 				"</soapenv:Envelope>";
+		
 		
 		HTTPConnection http = new HTTPConnection("http://localhost:8082", data);
 		Thread t = new Thread(http);
 		t.start();
 		t.join();
-		System.out.println(http.getResponse());
-	}
+		//System.out.println(http.getResponse());
+		
+		String IP = null;
+		String port = null;
+		
+		try
+		{
 
+        MessageFactory mf = MessageFactory.newInstance();
+
+        MimeHeaders header = new MimeHeaders();     
+        header.addHeader("Content-Type", "text/xml");
+
+        InputStream is = new ByteArrayInputStream(http.getResponse().getBytes());
+
+        SOAPMessage soapMessage = mf.createMessage(header,is);
+
+        SOAPBody soapBody = soapMessage.getSOAPBody();
+
+        NodeList nodes = soapBody.getElementsByTagName("ns2:IPAddress");
+
+        String IPContent = null;
+        Node node = nodes.item(0);
+        IPContent = node != null ? node.getTextContent() : "";
+       // System.out.println(IPContent);
+        IP = IPContent;
+        
+       
+        
+        NodeList nodes1 = soapBody.getElementsByTagName("ns2:port");
+
+        String portContent = null;
+        Node node1 = nodes1.item(0);
+        portContent = node1 != null ? node1.getTextContent() : "";
+
+       // System.out.println(portContent);
+        port = portContent;
+		}catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		
+	
+		System.out.println("Enter two numbers ");
+		int a = scanner.nextInt();
+		int b = scanner.nextInt();
+		
+		String serv_data = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n" + 
+				"                  xmlns:us=\"http://teja.vin.com/service\">\r\n" + 
+				"    <soapenv:Header/>\r\n" + 
+				"    <soapenv:Body>\r\n" + 
+				"        <us:"+service+"Request>\r\n" + 
+				"            <us:num1>"+a+"</us:num1>\r\n" + 
+				"            <us:num2>"+b+"</us:num2>\r\n" + 
+				"        </us:"+service+"Request>\r\n" + 
+				"    </soapenv:Body>\r\n" + 
+				"</soapenv:Envelope>";
+		
+		
+		HTTPConnection http1 = new HTTPConnection(("http://"+IP+":"+port), serv_data);
+		Thread t1 = new Thread(http1);
+		t1.start();
+		t1.join();
+		//System.out.println(http1.getResponse());
+		try
+		{
+
+        MessageFactory mf1 = MessageFactory.newInstance();
+
+        MimeHeaders header1 = new MimeHeaders();     
+        header1.addHeader("Content-Type", "text/xml");
+
+        InputStream is1 = new ByteArrayInputStream(http1.getResponse().getBytes());
+
+        SOAPMessage soapMessage1 = mf1.createMessage(header1,is1);
+
+        SOAPBody soapBody1 = soapMessage1.getSOAPBody();
+
+        NodeList nodes2 = soapBody1.getElementsByTagName("ns2:res_num");
+
+        String result = null;
+        Node node2 = nodes2.item(0);
+        result = node2 != null ? node2.getTextContent() : "";
+        System.out.println("Result : "+result);
+
+		}catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 }
+
