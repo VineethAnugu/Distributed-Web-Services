@@ -10,11 +10,17 @@ import java.net.URL;
 public class HTTPConnection implements Runnable {
 
 	private String url, postData, response;
+	private long waitTime;
 	
 	public HTTPConnection(String url, String postData) {
+		this(url, postData, 0L);
+	}
+	
+	public HTTPConnection(String url, String postData, long waitTime) {
 		this.response = null;
+		this.waitTime = waitTime;
 		this.url = url!=null?url.trim():"";
-		this.postData = this.postData!=null?this.postData:"";
+		this.postData = postData!=null?postData:"";
 	}
 	
 	public String getResponse() {
@@ -25,7 +31,7 @@ public class HTTPConnection implements Runnable {
 	@Override
 	public void run() {
 		try {
-			Thread.sleep(6000);
+			Thread.sleep(this.waitTime);
 			System.out.println("sleep ended");
 			this.response = this.sendPost(this.url, this.postData);
 			System.out.println(response);
@@ -42,14 +48,19 @@ public class HTTPConnection implements Runnable {
 		
 		try {
 			con = (HttpURLConnection) obj.openConnection();
-
-			con.setDoOutput(true);
+			
+			con.setReadTimeout(30000);
+			con.setConnectTimeout(5000);
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Accept", "*/*");
 			con.setRequestProperty("Content-Type", "text/xml");
+			con.setRequestProperty("User-Agent", "curl/7.29.0");
+			con.setRequestProperty("Content-Length", "curl/7.29.0");
 			
-			try(DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
-				
+			try {
+			
+				con.setDoOutput(true);
+				DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 				wr.writeBytes(postData);
 				wr.flush();
 				
@@ -70,6 +81,7 @@ public class HTTPConnection implements Runnable {
 						response.append(inputLine);
 					}
 					
+					wr.close();
 					in.close();
 					return response.toString().trim();
 					
