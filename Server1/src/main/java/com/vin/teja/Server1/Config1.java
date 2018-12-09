@@ -4,7 +4,9 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
@@ -16,13 +18,13 @@ import org.springframework.xml.xsd.XsdSchema;
 @Configuration
 public class Config1 extends WsConfigurerAdapter {
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-	@Bean
-    public ServletRegistrationBean messageDispatcherServlet(ApplicationContext context) {
+	@Bean("messageDispatcherServlet")
+    public ServletRegistrationBean<FrameworkServlet> messageDispatcherServlet(ApplicationContext context) {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(context);
         servlet.setTransformWsdlLocations(true);
-        return new ServletRegistrationBean(servlet, "/*");
+        System.out.println("dis servlet");
+        return new ServletRegistrationBean<FrameworkServlet>(servlet, "/*");
     }
 
 
@@ -39,8 +41,14 @@ public class Config1 extends WsConfigurerAdapter {
         definition.setLocationUri("/");
         definition.setPortTypeName("Server1Port");
         definition.setTargetNamespace("http://teja.vin.com/service");
+        System.out.println("server1");
         return definition;
     }
 
+    @Bean
+    @DependsOn("messageDispatcherServlet")
+    public Startup startupSequence() {
+    	return new Startup();
+	}
 
 }

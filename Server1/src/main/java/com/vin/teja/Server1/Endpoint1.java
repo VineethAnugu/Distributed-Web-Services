@@ -23,22 +23,22 @@ public class Endpoint1 {
 	
     private Map<String, ServerInfo> services = new HashMap<>();
     //Adding data into the hash map
-    private ServerInfo putInfo(String x, int y, String [] z) {
+   /* private ServerInfo putInfo(String x, int y) {
     	ServerInfo si = new ServerInfo();
     	si.setIpAddress(x);
     	si.setPort(y);
-    	si.setServiceNames(z);
+    	//si.setServiceNames(z);
         return si;
-    }
+    }*/
     
     public Endpoint1() {
     	
     	//Adding details about server 1 and its services.
-    	String[] service_list1 = new String[2];
+    	/*String[] service_list1 = new String[2];
 	    service_list1[0]= "AddService";
 	    service_list1[1]= "MinusService";
-	    ServerInfo s1 = putInfo("localhost", 8082, service_list1);
-	    services.put(s1.getKey(), s1);
+	    ServerInfo s1 = putInfo("localhost", 8082);
+	    services.put(s1.getKey(), s1);*/
 
     }
 
