@@ -3,6 +3,7 @@ package com.vin.teja.Server1;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -72,8 +73,6 @@ public class Endpoint1 {
 		for(String key : services.keySet()) {
 			if(Arrays.asList(services.get(key).getServiceNames()).contains(r)) {
 				temp[i] = key;
-				if(i == 0 && services.get(key).getLoad() == 0)
-					services.get(key).setLoad(load_t + services.get(key).getLoad());
 				i++;
 			}
 		}
@@ -85,28 +84,33 @@ public class Endpoint1 {
 			serverInf = serverInf+s.getKey()+",";
 		}
  		serverInf = serverInf.substring(0, (serverInf.length()-1));
- 	//	whichresponse.setServers(serverInf);
  		String[] ser_inf = serverInf.split(",");
- 		int min = Integer.MAX_VALUE;
- 		String reqd_server = "";
- 		for(int g = 0; g < ser_inf.length; g++) {
- 			if(Arrays.asList(services.get(ser_inf[g]).getKey()).contains(ser_inf[g])) {
- 				if(min > services.get(ser_inf[g]).getLoad())
- 					min = services.get(ser_inf[g]).getLoad();
- 			}
+ 		System.out.println(serverInf);
+ 		
+/* 		Comparator<Integer> loadComparator = new Comparator<Integer>() {
+ 			@Override
+			public int compare(Integer load1, Integer load2) {
+				return load1.compareTo(load2);
+			}
+ 		};*/
+ 		
+ 		PriorityQueue<Integer> servicePriorityQueue = new PriorityQueue<>();
+ 		for(int k = 0; k < ser_inf.length; k++) {
+ 			servicePriorityQueue.add(services.get(ser_inf[k]).getLoad());
  		}
+ 		int reqd_load = servicePriorityQueue.remove();
+ 		String reqd_server = "";
  		for(String key : services.keySet()) {
- 			if(Arrays.asList(services.get(key).getLoad()).contains(min)) {
- 				reqd_server = services.get(key).getKey();
+ 			if(Arrays.asList(services.get(key).getLoad()).contains(reqd_load) && (Arrays.asList(services.get(key).getServiceNames()).contains(r))) {
+ 				reqd_server = key;
  				break;
  			}
  		}
  		whichresponse.setServer(reqd_server);
- 		for(String key : services.keySet()) {
- 			if(Arrays.asList(services.get(key).getKey()).contains(reqd_server))
- 				if(services.get(key).getLoad() != 1)
- 					services.get(key).setLoad(load_t + services.get(key).getLoad());
- 		}
+ 		services.get(reqd_server).setLoad(reqd_load + load_t);
+ 		System.out.println(services.get(reqd_server).getLoad());
+ 		System.out.println(reqd_load);
+ 		System.out.println(reqd_server);
  		return whichresponse;
 	}
 	
