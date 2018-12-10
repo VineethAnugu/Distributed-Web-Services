@@ -19,7 +19,7 @@ public class Endpoint4 {
 
 		float a = divrequest.getNum1();
 		float b = divrequest.getNum2();
-		response.setResNum(a+b);
+		response.setResNum(a/b);
 		response.setComment("Success");
 		return response;
 	}
@@ -32,7 +32,7 @@ public class Endpoint4 {
 
 		float a = minusrequest.getNum1();
 		float b = minusrequest.getNum2();
-		response.setResNum(a*b);
+		response.setResNum(a-b);
 		response.setComment("Success");
 		return response;
 	}

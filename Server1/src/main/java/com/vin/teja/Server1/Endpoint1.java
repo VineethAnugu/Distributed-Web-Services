@@ -23,6 +23,14 @@ public class Endpoint1 {
 	
     private Map<String, ServerInfo> services = new HashMap<>();
     
+    public void loadInitialize(int porttemp) {
+    	int loadtemp = 0;
+    	for(String key : services.keySet()) {
+    		if(Arrays.asList(services.get(key).getPort()).contains(porttemp))
+    			services.get(key).setLoad(loadtemp);
+    	}
+    }
+    
     	// AddRequest 
 	@PayloadRoot(namespace = "http://teja.vin.com/service",    		
 			localPart = "AddRequest")
@@ -58,17 +66,48 @@ public class Endpoint1 {
 	public WhichResponse WhichRequest(@RequestPayload WhichRequest whichrequest) {
 		WhichResponse whichresponse = new WhichResponse();
 		String r = whichrequest.getServiceName();
-		String temp = "";
+		int load_t = whichrequest.getLoadInc();
+		String [] temp =  new String [2];
+		int i = 0;
 		for(String key : services.keySet()) {
 			if(Arrays.asList(services.get(key).getServiceNames()).contains(r)) {
-				temp = key;
-				break;
+				temp[i] = key;
+				if(i == 0 && services.get(key).getLoad() == 0)
+					services.get(key).setLoad(load_t + services.get(key).getLoad());
+				i++;
 			}
 		}
-		ServerInfo s = services.get(temp);
-		whichresponse.setIPAddress(s.getIpAddress());
-		whichresponse.setPort(s.getPort());		
-		return whichresponse;
+		String serverInf = "";
+ 		for(int j = 0; j<temp.length;j++) {
+			ServerInfo s = services.get(temp[j]);
+			/*whichresponse.setIPAddress(s.getIpAddress());
+			whichresponse.setPort(s.getPort());*/		
+			serverInf = serverInf+s.getKey()+",";
+		}
+ 		serverInf = serverInf.substring(0, (serverInf.length()-1));
+ 	//	whichresponse.setServers(serverInf);
+ 		String[] ser_inf = serverInf.split(",");
+ 		int min = Integer.MAX_VALUE;
+ 		String reqd_server = "";
+ 		for(int g = 0; g < ser_inf.length; g++) {
+ 			if(Arrays.asList(services.get(ser_inf[g]).getKey()).contains(ser_inf[g])) {
+ 				if(min > services.get(ser_inf[g]).getLoad())
+ 					min = services.get(ser_inf[g]).getLoad();
+ 			}
+ 		}
+ 		for(String key : services.keySet()) {
+ 			if(Arrays.asList(services.get(key).getLoad()).contains(min)) {
+ 				reqd_server = services.get(key).getKey();
+ 				break;
+ 			}
+ 		}
+ 		whichresponse.setServer(reqd_server);
+ 		for(String key : services.keySet()) {
+ 			if(Arrays.asList(services.get(key).getKey()).contains(reqd_server))
+ 				if(services.get(key).getLoad() != 1)
+ 					services.get(key).setLoad(load_t + services.get(key).getLoad());
+ 		}
+ 		return whichresponse;
 	}
 	
 	
@@ -88,6 +127,7 @@ public class Endpoint1 {
 		s.setServiceNames(serv_names);
 		this.services.put(s.getKey(), s);
 		aliveresponse.setStatus("Stored");
+		loadInitialize(port);
 		return aliveresponse;
 	}
 	

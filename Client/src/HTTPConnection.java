@@ -123,7 +123,8 @@ public class HTTPConnection implements Runnable {
 				"    <soapenv:Header/>\r\n" + 
 				"    <soapenv:Body>\r\n" + 
 				"        <us:WhichRequest>\r\n" + 
-				"            <us:serviceName>"+service+"Service</us:serviceName>\r\n" + 
+				"            <us:serviceName>"+service+"Service</us:serviceName>\r\n" +
+				"            <us:load_inc>1</us:load_inc>\r\n" +
 				"        </us:WhichRequest>\r\n" + 
 				"    </soapenv:Body>\r\n" + 
 				"</soapenv:Envelope>";
@@ -135,8 +136,9 @@ public class HTTPConnection implements Runnable {
 		t.join();
 		//System.out.println(http.getResponse());
 		
-		String IP = null;
-		String port = null;
+		/*String IP = null;
+		String port = null;*/
+		String server = null;
 		
 		try
 		{
@@ -152,35 +154,35 @@ public class HTTPConnection implements Runnable {
 
         SOAPBody soapBody = soapMessage.getSOAPBody();
 
-        NodeList nodes = soapBody.getElementsByTagName("ns2:IPAddress");
+        NodeList nodes = soapBody.getElementsByTagName("ns2:Server");
 
-        String IPContent = null;
+        String Server = null;
         Node node = nodes.item(0);
-        IPContent = node != null ? node.getTextContent() : "";
+        Server = node != null ? node.getTextContent() : "";
        // System.out.println(IPContent);
-        IP = IPContent;
+        server = Server;
         
        
         
-        NodeList nodes1 = soapBody.getElementsByTagName("ns2:port");
+        /*NodeList nodes1 = soapBody.getElementsByTagName("ns2:port");
 
         String portContent = null;
         Node node1 = nodes1.item(0);
         portContent = node1 != null ? node1.getTextContent() : "";
 
        // System.out.println(portContent);
-        port = portContent;
+        port = portContent;*/
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
-		
+		//String[] serv_info = server.split(",");
 	
 		System.out.println("Enter two numbers ");
 		int a = scanner.nextInt();
 		int b = scanner.nextInt();
 		
-		String serv_data = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n" + 
+		String service_data = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n" + 
 				"                  xmlns:us=\"http://teja.vin.com/service\">\r\n" + 
 				"    <soapenv:Header/>\r\n" + 
 				"    <soapenv:Body>\r\n" + 
@@ -192,7 +194,7 @@ public class HTTPConnection implements Runnable {
 				"</soapenv:Envelope>";
 		
 		
-		HTTPConnection http1 = new HTTPConnection(("http://"+IP+":"+port), serv_data);
+		HTTPConnection http1 = new HTTPConnection(("http://"+server), service_data);
 		Thread t1 = new Thread(http1);
 		t1.start();
 		t1.join();

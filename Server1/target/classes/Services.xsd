@@ -32,6 +32,7 @@ targetNamespace="http://teja.vin.com/service" elementFormDefault="qualified">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="serviceName" type="xs:string"/>
+                <xs:element name="load_inc" type="xs:int"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -39,8 +40,10 @@ targetNamespace="http://teja.vin.com/service" elementFormDefault="qualified">
     <xs:element name="WhichResponse">
         <xs:complexType>
             <xs:sequence>
-			<xs:element name="IPAddress" type="xs:string"/>
-			<xs:element name="port" type="xs:int"/>
+		<!-- 	<xs:element name="IPAddress" type="xs:string"/>
+			<xs:element name="port" type="xs:int"/> 
+			<xs:element name="Servers" type="xs:string"/>-->
+			<xs:element name="Server" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

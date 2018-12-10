@@ -5,7 +5,14 @@ public class ServerInfo {
 	public String ipAddress;
 	private int port;
 	private String[] serviceNames;
+	private int load;
 	
+	public int getLoad() {
+		return load;
+	}
+	public void setLoad(int load) {
+		this.load = load;
+	}
 	public String getIpAddress() {
 		return ipAddress;
 	}
