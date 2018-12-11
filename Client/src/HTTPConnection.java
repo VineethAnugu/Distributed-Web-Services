@@ -130,7 +130,7 @@ public class HTTPConnection implements Runnable {
 				"</soapenv:Envelope>";
 		
 		
-		HTTPConnection http = new HTTPConnection("http://localhost:8082", data);
+		HTTPConnection http = new HTTPConnection("http://10.200.152.62:8082", data);
 		Thread t = new Thread(http);
 		t.start();
 		
@@ -139,7 +139,6 @@ public class HTTPConnection implements Runnable {
 		}catch(InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println(http.getResponse());
 
 		String server = null;
 		
