@@ -111,7 +111,7 @@ public class HTTPConnection implements Runnable {
 				"    </soapenv:Body>\r\n" + 
 				"</soapenv:Envelope>";
 		
-		HTTPConnection http = new HTTPConnection("http://localhost:8082", data);
+		HTTPConnection http = new HTTPConnection("http://10.0.0.35:8082", data);
 		Thread t = new Thread(http);
 		t.start();
 		t.join();

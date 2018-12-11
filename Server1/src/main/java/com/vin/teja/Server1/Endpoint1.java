@@ -1,10 +1,11 @@
 package com.vin.teja.Server1;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
-
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -68,32 +69,24 @@ public class Endpoint1 {
 		WhichResponse whichresponse = new WhichResponse();
 		String r = whichrequest.getServiceName();
 		int load_t = whichrequest.getLoadInc();
-		String [] temp =  new String [2];
-		int i = 0;
+		List<String> temp = new ArrayList<>();
+		
 		for(String key : services.keySet()) {
 			if(Arrays.asList(services.get(key).getServiceNames()).contains(r)) {
-				temp[i] = key;
-				i++;
+				temp.add(key);
 			}
 		}
+		
 		String serverInf = "";
- 		for(int j = 0; j<temp.length;j++) {
-			ServerInfo s = services.get(temp[j]);
-			/*whichresponse.setIPAddress(s.getIpAddress());
-			whichresponse.setPort(s.getPort());*/		
+ 		for(int j = 0; j<temp.size();j++) {
+			ServerInfo s = services.get(temp.get(j));		
 			serverInf = serverInf+s.getKey()+",";
 		}
  		serverInf = serverInf.substring(0, (serverInf.length()-1));
  		String[] ser_inf = serverInf.split(",");
  		System.out.println(serverInf);
  		
-/* 		Comparator<Integer> loadComparator = new Comparator<Integer>() {
- 			@Override
-			public int compare(Integer load1, Integer load2) {
-				return load1.compareTo(load2);
-			}
- 		};*/
- 		
+ 		//To compare loads of servers that provide the required service on the least loaded servers
  		PriorityQueue<Integer> servicePriorityQueue = new PriorityQueue<>();
  		for(int k = 0; k < ser_inf.length; k++) {
  			servicePriorityQueue.add(services.get(ser_inf[k]).getLoad());

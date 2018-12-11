@@ -133,11 +133,14 @@ public class HTTPConnection implements Runnable {
 		HTTPConnection http = new HTTPConnection("http://localhost:8082", data);
 		Thread t = new Thread(http);
 		t.start();
-		t.join();
-		//System.out.println(http.getResponse());
 		
-		/*String IP = null;
-		String port = null;*/
+		try {
+			t.join();
+		}catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println(http.getResponse());
+
 		String server = null;
 		
 		try
@@ -159,24 +162,12 @@ public class HTTPConnection implements Runnable {
         String Server = null;
         Node node = nodes.item(0);
         Server = node != null ? node.getTextContent() : "";
-       // System.out.println(IPContent);
         server = Server;
         
-       
-        
-        /*NodeList nodes1 = soapBody.getElementsByTagName("ns2:port");
-
-        String portContent = null;
-        Node node1 = nodes1.item(0);
-        portContent = node1 != null ? node1.getTextContent() : "";
-
-       // System.out.println(portContent);
-        port = portContent;*/
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
-		//String[] serv_info = server.split(",");
 	
 		System.out.println("Enter two numbers ");
 		int a = scanner.nextInt();
@@ -198,7 +189,6 @@ public class HTTPConnection implements Runnable {
 		Thread t1 = new Thread(http1);
 		t1.start();
 		t1.join();
-		//System.out.println(http1.getResponse());
 		try
 		{
 

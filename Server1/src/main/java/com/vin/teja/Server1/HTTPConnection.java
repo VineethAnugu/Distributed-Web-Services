@@ -100,21 +100,7 @@ public class HTTPConnection implements Runnable {
 	
 	public static void main(String[] args) throws Exception {
 
-		/*String data = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n" + 
-				"                  xmlns:us=\"http://teja.vin.com/service\">\r\n" + 
-				"    <soapenv:Header/>\r\n" + 
-				"    <soapenv:Body>\r\n" + 
-				"        <us:WhichRequest>\r\n" + 
-				"            <us:serviceName>MulService</us:serviceName>\r\n" + 
-				"        </us:WhichRequest>\r\n" + 
-				"    </soapenv:Body>\r\n" + 
-				"</soapenv:Envelope>";
-		
-		HTTPConnection http = new HTTPConnection("http://localhost:8082", data);
-		Thread t = new Thread(http);
-		t.start();
-		t.join();
-		System.out.println(http.getResponse());*/
+
 	}
 
 }
