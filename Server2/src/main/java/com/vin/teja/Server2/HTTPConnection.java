@@ -101,7 +101,7 @@ public class HTTPConnection implements Runnable {
 	
 	public static void main(String[] args) throws Exception {
 
-		String data = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n" + 
+/*		String data = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n" + 
 				"                  xmlns:us=\"http://teja.vin.com/service\">\r\n" + 
 				"    <soapenv:Header/>\r\n" + 
 				"    <soapenv:Body>\r\n" + 
@@ -115,7 +115,7 @@ public class HTTPConnection implements Runnable {
 		Thread t = new Thread(http);
 		t.start();
 		t.join();
-		System.out.println(http.getResponse());
+		System.out.println(http.getResponse());*/
 	}
 
 }

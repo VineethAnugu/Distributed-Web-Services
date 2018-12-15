@@ -19,6 +19,7 @@ import org.springframework.xml.xsd.XsdSchema;
 @ComponentScan("com.vin.teja")
 public class Config1 extends WsConfigurerAdapter {
 
+		//creating the servlet
 	@Bean("messageDispatcherServlet")
     public ServletRegistrationBean<FrameworkServlet> messageDispatcherServlet(ApplicationContext context) {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
@@ -27,12 +28,13 @@ public class Config1 extends WsConfigurerAdapter {
         return new ServletRegistrationBean<FrameworkServlet>(servlet, "/*");
     }
 
-
+	//Schema mapping
     @Bean
     public XsdSchema userSchema() {
         return new SimpleXsdSchema(new ClassPathResource("Services.xsd"));
     }
 
+    //Handling the WSDL
     @Bean(name = "Server1")
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema userSchema) {
 

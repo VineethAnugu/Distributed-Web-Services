@@ -10,6 +10,8 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
 public class Endpoint2 {
+	
+
 
 	@PayloadRoot(namespace = "http://teja.vin.com/service",    		
 			localPart = "MulRequest")
@@ -36,5 +38,7 @@ public class Endpoint2 {
 		response.setComment("Success");
 		return response;
 	}
+	
+	
 }
 

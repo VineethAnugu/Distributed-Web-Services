@@ -1,9 +1,16 @@
+com\vin\teja\service\AliveRequest.class
 com\vin\teja\Server2\Config2.class
 com\vin\teja\service\package-info.class
 com\vin\teja\service\Response.class
+com\vin\teja\service\AliveResponse.class
+com\vin\teja\service\DeadRequest.class
+com\vin\teja\service\WhichRequest.class
+com\vin\teja\service\DeadResponse.class
 com\vin\teja\service\MulRequest.class
 com\vin\teja\Server2\Endpoint2.class
 com\vin\teja\Server2\Server2Application.class
+com\vin\teja\Server2\GetIP.class
+com\vin\teja\service\WhichResponse.class
 com\vin\teja\Server2\HTTPConnection.class
 com\vin\teja\Server2\Startup.class
 com\vin\teja\service\DivRequest.class

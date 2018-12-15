@@ -13,7 +13,7 @@ import com.vin.teja.Server4.GetIP;
 @DependsOn("messageDispatcherServlet")
 public class Startup implements DisposableBean {
 	String IP = new GetIP().get_ip();
-	private final String loadBalancerIP = "10.200.152.62";
+	private final String loadBalancerIP = "localhost";
 	private final String loadBalancerUrl = "http://"+ loadBalancerIP +":8082";
 	private final String aliveRequest = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:us=\"http://teja.vin.com/service\"><soapenv:Header/><soapenv:Body><us:AliveRequest><us:IPAddress>"+IP+"</us:IPAddress><us:port>8085</us:port><us:serviceNames>DivService,MinusService</us:serviceNames></us:AliveRequest></soapenv:Body></soapenv:Envelope>\r\n";
 	private final String deadRequest = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:us=\"http://teja.vin.com/service\"><soapenv:Header/><soapenv:Body><us:DeadRequest><us:IPAddress>"+IP+"</us:IPAddress><us:port>8085</us:port></us:DeadRequest></soapenv:Body></soapenv:Envelope>\r\n";
@@ -30,7 +30,6 @@ public class Startup implements DisposableBean {
 	@PreDestroy
 	@Override
 	public void destroy() throws Exception {
-		//TODO check if server IP is not loadBalancerIP
 		HTTPConnection http = new HTTPConnection(loadBalancerUrl, deadRequest);
 		Thread t = new Thread(http);
 		t.start();

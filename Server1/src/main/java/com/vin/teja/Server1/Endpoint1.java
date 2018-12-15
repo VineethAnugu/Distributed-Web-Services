@@ -22,7 +22,7 @@ import com.vin.teja.service.WhichResponse;
 
 @Endpoint
 public class Endpoint1 {
-	
+	//Initializing the hash map
     private Map<String, ServerInfo> services = new HashMap<>();
     
     public void loadInitialize(int porttemp) {
@@ -84,9 +84,8 @@ public class Endpoint1 {
 		}
  		serverInf = serverInf.substring(0, (serverInf.length()-1));
  		String[] ser_inf = serverInf.split(",");
- 		System.out.println(serverInf);
  		
- 		//To compare loads of servers that provide the required service on the least loaded servers
+ 		//To compare loads of servers that provide the required service on the least loaded servers using priority queue
  		PriorityQueue<Integer> servicePriorityQueue = new PriorityQueue<>();
  		for(int k = 0; k < ser_inf.length; k++) {
  			servicePriorityQueue.add(services.get(ser_inf[k]).getLoad());
@@ -101,9 +100,8 @@ public class Endpoint1 {
  		}
  		whichresponse.setServer(reqd_server);
  		services.get(reqd_server).setLoad(reqd_load + load_t);
- 		System.out.println(services.get(reqd_server).getLoad());
- 		System.out.println(reqd_load);
- 		System.out.println(reqd_server);
+ 		System.out.println(reqd_server +":"+(reqd_load+load_t) );
+ 		
  		return whichresponse;
 	}
 	

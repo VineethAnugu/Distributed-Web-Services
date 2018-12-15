@@ -117,7 +117,17 @@ public class HTTPConnection implements Runnable {
 		System.out.println("1. Add, 2. Minus, 3. Mul, 4. Div");
 		scanner = new Scanner(System.in);
 		String service = scanner.nextLine();
-
+		
+/*		final Map<String, Integer> serviceLoad = new HashMap<>();
+		
+		serviceLoad.put("Add", 1);
+		serviceLoad.put("Minus", 2);
+		serviceLoad.put("Mul", 4);
+		serviceLoad.put("Div", 3);
+		
+		int load = serviceLoad.get(service);*/
+		
+		// Which Request
 		String data = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n" + 
 				"                  xmlns:us=\"http://teja.vin.com/service\">\r\n" + 
 				"    <soapenv:Header/>\r\n" + 
@@ -130,9 +140,12 @@ public class HTTPConnection implements Runnable {
 				"</soapenv:Envelope>";
 		
 		
-		HTTPConnection http = new HTTPConnection("http://10.200.152.62:8082", data);
+		
+		HTTPConnection http = new HTTPConnection("http://localhost:8082", data);
 		Thread t = new Thread(http);
+		//starting which request connection thread
 		t.start();
+		long discovery_startTime = System.currentTimeMillis();
 		
 		try {
 			t.join();
@@ -142,6 +155,7 @@ public class HTTPConnection implements Runnable {
 
 		String server = null;
 		
+		//parsing the which response to retrieve data from it
 		try
 		{
 
@@ -161,17 +175,18 @@ public class HTTPConnection implements Runnable {
         String Server = null;
         Node node = nodes.item(0);
         Server = node != null ? node.getTextContent() : "";
+        System.out.println("Disovery Time :"+(System.currentTimeMillis() - discovery_startTime)+"ms" );
         server = Server;
         
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
-	
 		System.out.println("Enter two numbers ");
 		int a = scanner.nextInt();
 		int b = scanner.nextInt();
 		
+		//service request
 		String service_data = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n" + 
 				"                  xmlns:us=\"http://teja.vin.com/service\">\r\n" + 
 				"    <soapenv:Header/>\r\n" + 
@@ -186,8 +201,12 @@ public class HTTPConnection implements Runnable {
 		
 		HTTPConnection http1 = new HTTPConnection(("http://"+server), service_data);
 		Thread t1 = new Thread(http1);
+		//starting service request connection thread
 		t1.start();
 		t1.join();
+		long startTime = System.currentTimeMillis();
+		
+		
 		try
 		{
 
@@ -208,6 +227,7 @@ public class HTTPConnection implements Runnable {
         Node node2 = nodes2.item(0);
         result = node2 != null ? node2.getTextContent() : "";
         System.out.println("Result : "+result);
+        System.out.println("Service Time : "+(System.currentTimeMillis() - startTime)+"ms");
 
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
